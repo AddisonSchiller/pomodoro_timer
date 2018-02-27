@@ -13,13 +13,15 @@ class Ptimer(object):
         self.break_time = break_time * 60
         self.large_break_time = large_break_time * 60
         self.sound = sound
+        self.round_sleep = .5  # settable in this way to speed up tests
+        self.ring_sleep = 4  # settable in this way to speed up tests
 
     def ring(self):
         sys.stdout.write("\r ring ring ring ring                               ")
         if self.sound:
             playsound(SOUND)
         else:
-            time.sleep(4)
+            time.sleep(self.ring_sleep)
 
     def round(self, message, max_time):
         time_elapsed = 0
@@ -28,7 +30,7 @@ class Ptimer(object):
             time_elapsed = time.time() - time_started
             sys.stdout.write(message + " %i:%i time left             " % ((max_time - time_elapsed) // 60, (max_time - time_elapsed) % 60))
             sys.stdout.flush()
-            time.sleep(.5)
+            time.sleep(self.round_sleep)
             time_elapsed = time.time() - time_started
 
         self.ring()
@@ -43,8 +45,3 @@ class Ptimer(object):
             else:
                 message = "\r On break %i. There is" % (i + 1)
                 self.round(message, self.break_time)
-
-
-thing = Ptimer(.025, .025, .025, True)
-
-thing.start()
