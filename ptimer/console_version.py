@@ -1,27 +1,23 @@
 import sys
 import time
-from playsound import playsound
-
-# Sound from http://soundbible.com/2148-Chinese-Gong.html
-# Under Attribution 3.0 License
-SOUND = 'sound/chinese-gong-daniel_simon.mp3'
 
 
 class Ptimer(object):
-    def __init__(self, round_time=25, break_time=5, large_break_time=20, sound=False):
+    def __init__(self, round_time=25, break_time=5, large_break_time=20):
+        # convert to seconds
         self.round_time = round_time * 60
         self.break_time = break_time * 60
         self.large_break_time = large_break_time * 60
-        self.sound = sound
         self.round_sleep = .5  # settable in this way to speed up tests
-        self.ring_sleep = 4  # settable in this way to speed up tests
+        self.ring_sleep = 3  # settable in this way to speed up tests
 
     def ring(self):
+        # Extra spaces to cover up any lingering characters from previous writes
         sys.stdout.write("\r ring ring ring ring                               ")
-        if self.sound:
-            playsound(SOUND)
-        else:
-            time.sleep(self.ring_sleep)
+        sys.stdout.flush()
+
+        # sleep so it rings for a few seconds
+        time.sleep(self.ring_sleep)
 
     def round(self, message, max_time):
         time_elapsed = 0
@@ -30,6 +26,7 @@ class Ptimer(object):
             time_elapsed = time.time() - time_started
             sys.stdout.write(message + " %i:%i time left             " % ((max_time - time_elapsed) // 60, (max_time - time_elapsed) % 60))
             sys.stdout.flush()
+            # Sleeping here drastically reduces CPU load
             time.sleep(self.round_sleep)
             time_elapsed = time.time() - time_started
 
