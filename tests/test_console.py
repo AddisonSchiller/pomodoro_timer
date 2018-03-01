@@ -4,7 +4,7 @@ from mock import call, Mock
 from ptimer.console_version import Ptimer
 
 
-class TestPtimer():
+class TestConsolePtimer():
 
     def test_time_values(self):
         timer = Ptimer(25, 5, 20)

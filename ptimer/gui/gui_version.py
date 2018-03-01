@@ -20,7 +20,7 @@ class Ptimer(object):
 
         self.buttons = []
         self.buttons.append(Button(IMAGE_ASSETS['button'], 225, 100, label="Start/Pause"))
-        self.buttons[0].set_action(self.pause)
+        self.buttons[0].set_action(self.toggle_pause)
         self.buttons.append(Button(IMAGE_ASSETS['button'], 475, 100, label="Reset"))
         self.buttons[1].set_action(self.reset)
 
@@ -47,7 +47,7 @@ class Ptimer(object):
         )
         self.reset()
 
-    def pause(self):
+    def toggle_pause(self):
 
         self.started = not self.started
         if self.started:
