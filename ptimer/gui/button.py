@@ -1,10 +1,9 @@
 import pyglet
-from pyglet.sprite import Sprite
 
 
-class Button(Sprite):
+class Button(pyglet.sprite.Sprite):
     def __init__(self, img, x, y, label="", **kwargs):
-        """Instantiate `Button`."""
+        """Button with label."""
         super(Button, self).__init__(img, x, y, **kwargs)
         self.clicked = False
         self.label = pyglet.text.Label(
@@ -26,6 +25,8 @@ class Button(Sprite):
         self.action = action
 
     def check_click(self, x, y):
+        # There are better ways to check clicks. There aren't many buttons or clicks going on
+        # So this method is okay for now. Especially with the image being centered
         if (x in range(self.x - self.width // 2, self.x + self.width // 2) and
                 y in range(self.y - self.height // 2, self.y + self.height // 2)):
                 return True

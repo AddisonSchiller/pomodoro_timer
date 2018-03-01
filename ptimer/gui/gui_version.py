@@ -11,7 +11,9 @@ class Ptimer(object):
             'round', 'break',
             'round', 'break',
             'round', 'break',
-            'round', 'long break']
+            'round', 'long break'
+        ]
+
         self.sequence_times = {
             'round': float(times[0]) * 60,
             'break': float(times[1]) * 60,
@@ -19,8 +21,11 @@ class Ptimer(object):
         }
 
         self.buttons = []
+
+        # Hardcoded x,y values aren't great, but for this small application it should be fine
         self.buttons.append(Button(IMAGE_ASSETS['button'], 225, 100, label="Start/Pause"))
         self.buttons[0].set_action(self.toggle_pause)
+
         self.buttons.append(Button(IMAGE_ASSETS['button'], 475, 100, label="Reset"))
         self.buttons[1].set_action(self.reset)
 
@@ -45,13 +50,22 @@ class Ptimer(object):
             anchor_x='center',
             anchor_y='center',
         )
+
         self.reset()
 
     def toggle_pause(self):
-
         self.started = not self.started
         if self.started:
             self.last_time = time.time()
+
+    def format_time(self):
+        mins = str(int((self.sequence_times[self.sequence[self.round]] - self.time_elapsed) // 60))
+        seconds = str(int((self.sequence_times[self.sequence[self.round]] - self.time_elapsed) % 60))
+        if len(mins) == 1:
+            mins = '0' + mins
+        if len(seconds) == 1:
+            seconds = '0' + seconds
+        return mins + ":" + seconds
 
     def update(self):
         if self.started:
@@ -60,11 +74,11 @@ class Ptimer(object):
             self.last_time = c_time
 
             if self.time_elapsed < self.sequence_times[self.sequence[self.round]]:
-                message = str(int((self.sequence_times[self.sequence[self.round]] - self.time_elapsed) // 60)) + ":"
-                message += str(int((self.sequence_times[self.sequence[self.round]] - self.time_elapsed) % 60))
-                self.time_label.text = message
+                self.time_label.text = self.format_time()
+
             else:
                 self.round += 1
+
                 if self.round < len(self.sequence):
                     self.round_label.text = self.sequence[self.round] + " " + str((self.round // 2) + 1)
                     self.time_elapsed = 0
@@ -80,11 +94,11 @@ class Ptimer(object):
 
     def reset(self):
         self.round_label.text = "round 1"
-        self.time_label.text = ''
         self.started = False
         self.round = 0
         self.last_time = 0
         self.time_elapsed = 0
+        self.time_label.text = self.format_time()
 
     def draw(self):
         for b in self.buttons:

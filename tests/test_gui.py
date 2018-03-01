@@ -1,6 +1,5 @@
 import pytest
 import time
-from mock import call, Mock
 
 from ptimer.gui.gui_version import Ptimer
 
@@ -40,6 +39,11 @@ class TestGUIPtimer():
         assert timer.last_time != 0
         timer.toggle_pause()
         assert timer.started is False
+
+    def test_format_time(self):
+        timer = Ptimer()
+        timer.time_elapsed = 1500
+        assert timer.format_time() == '00:00'
 
     def test_update_round_rollover(self):
         timer = Ptimer()

@@ -1,5 +1,4 @@
 import os
-
 from pyglet.image import load as pload
 
 BASE = os.path.dirname(os.path.abspath(__file__))

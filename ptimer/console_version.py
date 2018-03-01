@@ -24,7 +24,17 @@ class Ptimer(object):
         time_started = time.time()
         while time_elapsed < max_time:
             time_elapsed = time.time() - time_started
-            sys.stdout.write(message + " %i:%i time left             " % ((max_time - time_elapsed) // 60, (max_time - time_elapsed) % 60))
+
+            # add one so it displays a bit more properly
+            mins = str(int((1 + max_time - time_elapsed) // 60))
+            seconds = str((int(1 + max_time - time_elapsed) % 60))
+
+            # add 0 so it stays in form of %mm:ss ie 09:01
+            if len(mins) == 1:
+                mins = '0' + mins
+            if len(seconds) == 1:
+                seconds = '0' + seconds
+            sys.stdout.write(message + " %s:%s time left             " % (mins, seconds))
             sys.stdout.flush()
             # Sleeping here drastically reduces CPU load
             time.sleep(self.round_sleep)

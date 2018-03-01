@@ -9,8 +9,8 @@ else:
     if len(sys.argv) != 1:
         print(":::::::::::::::::::::::::::::")
         print("Usage: python console_main.py [round length in minutes] [break length in minutes] [long break length in minutes]")
-        print("example: python console_main 20.1 5.2 12")
-        print("Inputting no args will use default values")
+        print("Example: python console_main 20.1 5.2 12")
+        print("Inputting no arguments will use default values of 25 5 20")
         print(":::::::::::::::::::::::::::::")
         sys.exit(1)
 
